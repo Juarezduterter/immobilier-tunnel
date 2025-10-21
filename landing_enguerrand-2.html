@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offre photo vidéo immobiliers – Enguerrand Quinard</title>
+    <style>
+        /* Palette et variables globales */
+        :root {
+            --bg-dark: #0d0224;
+            --card-bg: #160a33;
+            --primary: #8f6ee0;
+            --secondary: #6255a5;
+            --accent: #f3b34a;
+            --text-light: #f7f5fa;
+            --text-muted: #c3b7d7;
+            --border-radius: 8px;
+            --logo-column-width: clamp(140px, 18vw, 220px);
+            --logo-gap: clamp(1.5rem, 4.5vw, 3.5rem);
+            --logo-padding: clamp(0.75rem, 2vw, 1.5rem);
+        }
+
+        body {
+            margin: 0;
+            font-family: "Montserrat", Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Animations d’entrée */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes ctaFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes ctaGlow {
+            0%, 100% { box-shadow: 0 0 0 rgba(143,110,224,0.0), 0 0 0 rgba(243,179,74,0.0); }
+            40%, 60% { box-shadow: 0 0 16px rgba(143,110,224,0.35), 0 0 28px rgba(243,179,74,0.25); }
+        }
+        .animate {
+            animation: fadeUp 0.8s ease-out both;
+        }
+
+        /* Boutons génériques */
+        .primary-button,
+        .card-button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--bg-dark);
+            padding: 0.7rem 1.4rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .primary-button:hover,
+        .card-button:hover {
+            background-color: var(--accent);
+            color: var(--bg-dark);
+        }
+        .secondary-button {
+            display: inline-block;
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.7rem 1.4rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            margin-left: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .secondary-button:hover {
+            background-color: var(--primary);
+            color: var(--bg-dark);
+        }
+        .cta-glow {
+            animation: ctaFloat 4s ease-in-out infinite, ctaGlow 2.8s ease-in-out infinite;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--card-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header img {
+            height: 50px;
+        }
+
+        /* Logo banner */
+        .logo-banner {
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: var(--card-bg);
+            padding: 1rem 0;
+        }
+        .logo-track {
+            display: inline-flex;
+            align-items: center;
+            animation: scroll 25s linear infinite;
+            gap: var(--logo-gap);
+        }
+        .logo-track span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 var(--logo-column-width);
+            padding: var(--logo-padding);
+            box-sizing: border-box;
+        }
+        .logo-track img {
+            display: block;
+            max-height: clamp(28px, 5vw, 44px);
+            max-width: 100%;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 6px rgba(0,0,0,0.3));
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Hero */
+        .hero {
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            background: linear-gradient(180deg, #130537 0%, #0d0224 100%);
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem;
+        }
+        .hero h2 {
+            font-size: 1.5rem;
+            margin: 0 0 1.5rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+        .hero p {
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            color: var(--text-muted);
+        }
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.75rem;
+            color: var(--secondary);
+        }
+        .badges span {
+            background-color: rgba(255,255,255,0.05);
+            padding: 0.3rem 0.6rem;
+            border-radius: var(--border-radius);
+        }
+        .hero-cta {
+            margin-top: 1rem;
+        }
+
+        /* Pourquoi nous */
+        .why {
+            padding: 3rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .why-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .why-item {
+            background-color: var(--card-bg);
+            border: 1px solid #25145a;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            flex: 1 1 280px;
+            max-width: 320px;
+            position: relative;
+        }
+        .why-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .why-item h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        .why-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 3rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        .pricing-card {
+            background-color: var(--card-bg);
+            border: 1px solid #25145a;
+            border-radius: var(--border-radius);
+            flex: 1 1 280px;
+            max-width: 320px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .pricing-card.best-seller .ribbon {
+            display: block;
+        }
+        .ribbon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--accent);
+            color: var(--bg-dark);
+            padding: 0.4rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-top-right-radius: var(--border-radius);
+            border-bottom-left-radius: var(--border-radius);
+            display: none;
+        }
+        .pricing-card h3 {
+            font-size: 1.4rem;
+            margin-top: 0;
+        }
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.3rem 0;
+            color: var(--accent);
+        }
+        .ideal {
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem;
+            color: var(--text-muted);
+        }
+        .pricing-card ul li {
+            margin-bottom: 0.5rem;
+        }
+        .card-button {
+            margin-top: auto;
+        }
+        .bonus {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Options section */
+        .options {
+            padding: 3rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Options grid */
+        .options-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .option-card {
+            background-color: var(--card-bg);
+            border: 1px solid #25145a;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            flex: 1 1 240px;
+            max-width: 280px;
+        }
+        .option-card h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .option-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        .options .proof {
+            margin-top: 2rem;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            text-align: center;
+        }
+
+        /* Tarifs agence modern cards */
+        .tarifs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .tarif-card {
+            background-color: var(--card-bg);
+            border: 1px solid #25145a;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            flex: 1 1 200px;
+            max-width: 240px;
+            text-align: center;
+        }
+        .tarif-card h4 {
+            margin: 0 0 0.5rem;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+        .tarif-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Examples */
+        .examples {
+            padding: 3rem 2rem;
+            background-color: var(--card-bg);
+        }
+        .examples h2 {
+            text-align: center;
+            margin-top: 0;
+        }
+        .example-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .placeholder {
+            background-color: #2c1a5a;
+            border: 2px dashed var(--primary);
+            border-radius: var(--border-radius);
+            width: 280px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 0.5rem;
+        }
+        .placeholder a {
+            color: var(--text-muted);
+        }
+
+        /* Method horizontal */
+        .method {
+            padding: 3rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .method h2 {
+            text-align: center;
+        }
+        .method-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .method-step {
+            background-color: var(--card-bg);
+            border: 1px solid #25145a;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            flex: 1 1 160px;
+            max-width: 180px;
+            text-align: center;
+        }
+        .method-step .step-number {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            margin: 0 auto 0.5rem;
+            background-color: var(--accent);
+            color: var(--bg-dark);
+            border-radius: 50%;
+            font-weight: 700;
+        }
+        .method-step h4 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+        }
+        .method-step p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .sla {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 3rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .faq h2 {
+            text-align: center;
+        }
+        details {
+            background-color: var(--card-bg);
+            border: 1px solid #25145a;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.8rem;
+            padding: 1rem 1.5rem;
+        }
+        summary {
+            font-weight: 600;
+            cursor: pointer;
+        }
+        details p {
+            margin-top: 0.8rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Contact section with button */
+        .contact-section {
+            padding: 3rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .contact-section h2 {
+            margin-top: 0;
+        }
+        .contact-section p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--text-muted);
+        }
+        .micro-assurance {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background-color: var(--card-bg);
+            text-align: center;
+            border-top: 1px solid #25145a;
+            padding: 3rem 2rem;
+        }
+        .final-cta h2 {
+            margin-top: 0;
+        }
+        .final-cta p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        footer img {
+            height: 40px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="animate" style="animation-delay:0.2s">
+        <a href="https://enguerrand-quinard.fr" target="_blank" rel="noopener">
+            <img src="logo_EnguerrandQ_blanc.png" alt="Logo Enguerrand Quinard">
+        </a>
+        <a href="#contact" class="primary-button">Demander un devis</a>
+    </header>
+
+    <!-- Hero section -->
+    <section class="hero animate" style="animation-delay:0.3s">
+        <h1>Valorisez vos biens immobiliers en 24–72 h.</h1>
+        <h2>Des visuels qui font cliquer, visiter… et signer.</h2>
+        <p>
+            Photos pro, vues drone et vidéo visite calibrées pour SeLoger/Meilleurs Agents
+            ainsi que pour les réseaux sociaux (16:9, 1:1, 9:16). Nous gérons la
+            technique, les autorisations et la post‑production. Vous, vous signez.
+        </p>
+        <div class="badges">
+            <span>DGAC</span>
+            <span>Assurance RC Pro</span>
+            <span>France entière</span>
+            <span>DJI Pro / capteurs spécialisés</span>
+        </div>
+        <div class="hero-cta">
+            <a href="#contact" class="primary-button">Demander un devis (24 h)</a>
+            <a href="#packs" class="secondary-button">Voir packs &amp; tarifs</a>
+        </div>
+    </section>
+
+    <!-- Bandeau défilant logos -->
+    <div class="logo-banner animate" style="animation-delay:0.35s">
+        <div class="logo-track">
+            <span><img src="logo partenaires/logo-partenaire-1.svg" alt="Logo partenaire 1"></span>
+            <span><img src="logo partenaires/logo-partenaire-2.svg" alt="Logo partenaire 2"></span>
+            <span><img src="logo partenaires/logo-partenaire-3.svg" alt="Logo partenaire 3"></span>
+            <span><img src="logo partenaires/logo-partenaire-4.svg" alt="Logo partenaire 4"></span>
+            <span><img src="logo partenaires/logo-partenaire-5.svg" alt="Logo partenaire 5"></span>
+            <span><img src="logo partenaires/logo-partenaire-6.svg" alt="Logo partenaire 6"></span>
+            <span><img src="logo partenaires/logo-partenaire-7.svg" alt="Logo partenaire 7"></span>
+            <span><img src="logo partenaires/logo-partenaire-8.svg" alt="Logo partenaire 8"></span>
+            <span><img src="logo partenaires/logo-partenaire-9.svg" alt="Logo partenaire 9"></span>
+            <span><img src="logo partenaires/logo-partenaire-10.svg" alt="Logo partenaire 10"></span>
+            <span><img src="logo partenaires/logo-partenaire-11.svg" alt="Logo partenaire 11"></span>
+            <!-- duplication pour effet continu -->
+            <span><img src="logo partenaires/logo-partenaire-1.svg" alt="Logo partenaire 1"></span>
+            <span><img src="logo partenaires/logo-partenaire-2.svg" alt="Logo partenaire 2"></span>
+            <span><img src="logo partenaires/logo-partenaire-3.svg" alt="Logo partenaire 3"></span>
+            <span><img src="logo partenaires/logo-partenaire-4.svg" alt="Logo partenaire 4"></span>
+            <span><img src="logo partenaires/logo-partenaire-5.svg" alt="Logo partenaire 5"></span>
+            <span><img src="logo partenaires/logo-partenaire-6.svg" alt="Logo partenaire 6"></span>
+            <span><img src="logo partenaires/logo-partenaire-7.svg" alt="Logo partenaire 7"></span>
+            <span><img src="logo partenaires/logo-partenaire-8.svg" alt="Logo partenaire 8"></span>
+            <span><img src="logo partenaires/logo-partenaire-9.svg" alt="Logo partenaire 9"></span>
+            <span><img src="logo partenaires/logo-partenaire-10.svg" alt="Logo partenaire 10"></span>
+            <span><img src="logo partenaires/logo-partenaire-11.svg" alt="Logo partenaire 11"></span>
+        </div>
+    </div>
+
+    <!-- Pourquoi nous -->
+    <section class="why animate" style="animation-delay:0.4s">
+        <h2>Pourquoi nous&nbsp;?</h2>
+        <div class="why-grid">
+            <div class="why-item">
+                <div class="why-number">01</div>
+                <h3>Plus de visites qualifiées</h3>
+                <p>Des visuels clairs, lumineux et cohérents augmentent les clics, les demandes et la qualité des prospects.</p>
+            </div>
+            <div class="why-item">
+                <div class="why-number">02</div>
+                <h3>Zéro friction opérationnelle</h3>
+                <p>On s’occupe de tout : planning, autorisations drone, tournage, montage, exports web &amp; réseaux.</p>
+            </div>
+            <div class="why-item">
+                <div class="why-number">03</div>
+                <h3>Délais tenus, livrables exploitables</h3>
+                <p>Photos &lt; 24 h · Vidéo 48–72 h · Dossiers prêts à publier (JPG/MP4) + formats réseaux inclus.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packs & Tarifs -->
+    <section class="pricing animate" id="packs" style="animation-delay:0.5s">
+        <div class="pricing-card">
+            <h3>P1 — Photo Pro</h3>
+            <div class="price">350€ HT</div>
+            <p class="ideal">Idéal pour : mandats standards à sortir vite et bien.</p>
+            <ul>
+                <li>Jusqu’à 8 pièces principales (~16 photos) + 2 extérieurs</li>
+                <li>Bracketing HDR, vitres/réflexions optimisées</li>
+                <li>Correction géométrie et color‑grading doux</li>
+                <li>Livraison &lt; 24 h : dossier JPG HD + Web</li>
+                <li>Satisfaction garantie : si les photos ne respectent pas le brief, retouches offertes sous 48 h</li>
+            </ul>
+            <a href="#contact" class="card-button">Choisir – Photos Pro</a>
+        </div>
+        <div class="pricing-card best-seller">
+            <div class="ribbon">+ vendu</div>
+            <h3>P2 — Photo + Aérien</h3>
+            <div class="price">490€ HT</div>
+            <p class="ideal">Idéal pour : terrains, quartiers, maisons avec environnement différenciant.</p>
+            <ul>
+                <li>Tout le P1</li>
+                <li>+4 photos drone (cardinaux) + 1 oblique contexte/accès</li>
+                <li>Mise en valeur du terrain, quartier et vues</li>
+                <li>Livraison &lt; 24 h (photos sol &amp; drone)</li>
+                <li>Carte de vues aériennes prêtes pour vos annonces</li>
+            </ul>
+            <a href="#contact" class="card-button">Choisir – Photos Aériennes</a>
+        </div>
+        <div class="pricing-card">
+            <h3>P3 — Photo + Aérien + Vidéo</h3>
+            <div class="price">820€ HT</div>
+            <p class="ideal">Idéal pour : biens premium, programmes neufs, listings à médiatiser.</p>
+            <ul>
+                <li>Tout le P2</li>
+                <li>Vidéo UHD stabilisée 60–90 s (mouvements lents de ciné)</li>
+                <li>Exports 16:9 + vertical 9:16 (reels/stories) inclus</li>
+                <li>Livraison en 48–72 h (photos &lt; 24 h, vidéo &lt; 72 h)</li>
+                <li>Musique sous licence incluse + mini‑titres (quartier, surfaces, points forts)</li>
+            </ul>
+            <a href="#contact" class="card-button">Choisir – Photo & Vidéo</a>
+        </div>
+    </section>
+    <div class="bonus animate" style="animation-delay:0.55s">
+        Bonus packs (inclus P2/P3) : guide “publication rapide” (noms de fichiers, légendes, formats) + set d’icônes pour vos fiches.
+    </div>
+
+    <!-- Options section améliorée -->
+    <section class="options animate" style="animation-delay:0.6s">
+        <h2>Options « High Ticket Booster »</h2>
+        <div class="options-grid">
+            <div class="option-card"><h4>Golden Hour / Twilight</h4><p>+90 € — ambiance chaleureuse, parfait premium</p></div>
+            <div class="option-card"><h4>Plan 2D</h4><p>+120 € — avec métrés indicatifs</p></div>
+            <div class="option-card"><h4>Plan 3D stylisé</h4><p>+220 € — rendu stylisé</p></div>
+            <div class="option-card"><h4>Home staging virtuel</h4><p>+25 €/image</p></div>
+            <div class="option-card"><h4>Teaser vertical 20–30 s</h4><p>+150 € — packs P1 &amp; P2</p></div>
+            <div class="option-card"><h4>Rush express</h4><p>+30 % — photos &lt; 12 h, vidéo &lt; 36 h</p></div>
+            <div class="option-card"><h4>Nettoyage météo</h4><p>+40 % — ciel/pluie difficiles</p></div>
+            <div class="option-card"><h4>Mise en scène</h4><p>+40 € — 15–20 min d’accompagnement</p></div>
+        </div>
+        <div class="proof">Les boosters augmentent le taux de sauvegarde d’annonce et la mémorisation du bien.</div>
+    </section>
+
+
+    <!-- Section nouvelles réalisations placeholders + liens -->
+    <section class="examples animate" style="animation-delay:0.7s">
+        <h2>Vos supports personnalisables</h2>
+        <div class="example-grid">
+            <div class="placeholder"><a href="photo-interieur.jpg" download>Photo intérieur – téléchargez votre fichier JPG</a></div>
+            <div class="placeholder"><a href="photo-aerienne.jpg" download>Photo aérienne – téléchargez votre fichier JPG</a></div>
+            <div class="placeholder"><a href="video-interieur.webm" download>Vidéo intérieur – téléchargez votre fichier WEBM</a></div>
+        </div>
+    </section>
+
+    <!-- Méthode horizontale -->
+    <section class="method animate" style="animation-delay:0.75s">
+        <h2>Notre méthode (rapide & carrée)</h2>
+        <div class="method-steps">
+            <div class="method-step">
+                <div class="step-number">1</div>
+                <h4>Brief &amp; objectifs</h4>
+                <p>Usages, délais, KPI visuels, formats attendus.</p>
+            </div>
+            <div class="method-step">
+                <div class="step-number">2</div>
+                <h4>Repérage &amp; autorisations</h4>
+                <p>Sécurité site, fenêtres météo, plan de vol.</p>
+            </div>
+            <div class="method-step">
+                <div class="step-number">3</div>
+                <h4>Captation</h4>
+                <p>Drone &amp; sol, profils LOG/RAW, options thermographie ou RTK/PPK.</p>
+            </div>
+            <div class="method-step">
+                <div class="step-number">4</div>
+                <h4>Post‑prod / Analyse</h4>
+                <p>Montage &amp; étalonnage, orthophotos/annotations, QA/QC.</p>
+            </div>
+            <div class="method-step">
+                <div class="step-number">5</div>
+                <h4>Livraison &amp; suivi</h4>
+                <p>Multi‑formats (MP4, JPG/TIFF/RAW, GeoTIFF, LAS/LAZ, DWG/DXF, OBJ/IFC), rapport &amp; support.</p>
+            </div>
+        </div>
+        <div class="sla">SLA : photos &lt; 24 h, vidéo 48–72 h (météo/contraintes site exclues). Support sous 24 h ouvrées.</div>
+    </section>
+
+    <!-- FAQ section -->
+    <section class="faq animate" style="animation-delay:0.8s">
+        <h2>FAQ minute (anti‑frictions)</h2>
+        <details>
+            <summary>Quels formats livrez-vous&nbsp;?</summary>
+            <p>Master 4K/1080p 16:9 + déclinaisons 1:1 (feed) &amp; 9:16 (stories/reels). Photos JPG HD &amp; Web.</p>
+        </details>
+        <details>
+            <summary>Intérieur / zones occupées : possible&nbsp;?</summary>
+            <p>Oui, avec un plan de sécurité adapté. Micro‑drones/FPV “slow” si besoin. Nous protégeons occupants &amp; biens.</p>
+        </details>
+        <details>
+            <summary>Musique &amp; droits ?</summary>
+            <p>Oui : licences incluses (bibliothèques pro). Option d’identité sonore dédiée.</p>
+        </details>
+        <details>
+            <summary>Délais de livraison ?</summary>
+            <p>Teaser 48–72 h ; film complet selon durée/validations (5–10 j ouvrés). Photos &lt; 24 h.</p>
+        </details>
+        <details>
+            <summary>Météo capricieuse&nbsp;?</summary>
+            <p>On replanifie sans frais si vent/pluie forts pour préserver la qualité et la sécurité.</p>
+        </details>
+    </section>
+
+    <!-- Contact section -->
+    <section class="contact-section animate" id="contact" style="animation-delay:0.85s">
+        <h2>Parlez‑nous du bien, on s’occupe du reste.</h2>
+        <p>Réservez un rendez‑vous en visio pour discuter de votre projet : nous vous enverrons un plan, un délai et un prix clair.</p>
+        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1zfAskrNqXtXyDcS0Dqd6xA_2VEkPEGmuHyxuEtG-wygG7WrhI8Qzwq16K3YG8UC13nujMcR0z" target="_blank" class="primary-button cta-glow">Prendre un rendez-vous en visio</a>
+        <div class="micro-assurance">Réponse sous 24 h ouvrées. Données traitées en toute confidentialité.</div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="animate" style="animation-delay:0.95s">
+        <a href="https://enguerrand-quinard.fr" target="_blank" rel="noopener">
+            <img src="logo_EnguerrandQ_blanc.png" alt="Logo Enguerrand Quinard">
+        </a>
+        <p>Contact : <a href="mailto:contact@enguerrand-quinard.fr">contact@enguerrand-quinard.fr</a> – <a href="tel:+33621101997">+33 6 21 10 19 97</a></p>
+        <p>&copy; 2025 Enguerrand Quinard – Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
